@@ -12,8 +12,7 @@ if (isset($_REQUEST['submit'])) {
         $result = $database->getdata($_POST);
         if($result){
             $_SESSION['auth'] = $result;
-            // print_r($result);
-            // exit();
+        
             header("location:dashboard.php");
 
         }
@@ -30,6 +29,8 @@ if (isset($_REQUEST['submit'])) {
     else {  
         $database = new database();
         $result = $database->getUserdata($_POST);
+        // print_r($result);
+        // exit();
         if($result){
             $_SESSION['auth'] = $result;
             header("location:dashboard2.php");

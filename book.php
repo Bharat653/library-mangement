@@ -5,14 +5,11 @@ if (!isset($_SESSION['auth'])) {
 }
 require 'connection.php';
 
-
 if (isset($_REQUEST['submit'])) {
     if (($_REQUEST['book_name'] == "") || ($_REQUEST['category'] == "") || ($_REQUEST['author'] == "") || ($_REQUEST['sbn'] == "") || ($_REQUEST['price'] == "")) {
         echo "All fields Required";
     } else {
         $result = $database->books();
-        // print_r("<pre>");
-        // print_r($result);
 
         if ($result) {
             echo "Added successfully";

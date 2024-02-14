@@ -4,7 +4,10 @@ if (!isset($_SESSION['auth'])) {
     header("location:login.php");
 }
 require "connection.php";
-$getall = $database->getbooks();
+$approvedata = $database->approvestatusdata(['status' => '1']);
+// print_r("<pre>");
+// print_r($approvedata);
+// exit();
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -29,21 +32,23 @@ $getall = $database->getbooks();
     <!-- <h1 style="color: white;">Users Panel</h1> -->
     <?php require_once "bar/userupperbar.php" ?>
 
+
     <div>
+
         <table class="table table-green" style="width: 58%;
-    margin: 70px auto;
-    background-color: white;
-    border-radius: 4px;">
-     
+            margin: 70px auto;
+            background-color: white;
+            border-radius: 4px;">
+            <thead>
+        <th scope="col">issued Book</th>
+    </thead>
+
             <tbody>
                 <?php
-                foreach ($getall as $data) {
+                foreach ($approvedata as $data) {
                     echo "<tr>";
-                    echo "<td><img src='./images/" . $data['picture'] . "' style='height:90px;'></td>";
                     echo "<td>" . $data['book_name']    . "</td>";
-                    echo "<td>" . $data['author_name']    . "</td>";
-                    echo "<td>" . $data['price']    . "</td>";
-                    echo "<td><button class='btn btn-warning' onclick=\"window.location.href='request_data.php?requestid=" . $data['id'] . "'\">Request</button></td>";
+
                     echo "</tr>";
                 }
                 ?>
@@ -51,4 +56,5 @@ $getall = $database->getbooks();
         </table>
     </div>
 </body>
+
 </html>

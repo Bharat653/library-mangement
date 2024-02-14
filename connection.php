@@ -1,5 +1,7 @@
 <?php
 
+use LDAP\Result;
+
 class database
 {
     private $db;
@@ -183,7 +185,9 @@ class database
     }
 
     function issuebook(){
-        $query = $this->db->prepare("select * from issue inner join book on book.id = issue.book_id inner join users on users.id = issue.users_id  ");
+        $query = $this->db->prepare("select issue.*,
+        COALESCE(book.book_name) AS book_name, 
+        COALESCE(users.email) AS users_email from issue as issue inner join book on book.id = issue.book_id inner join users on users.id = issue.users_id ");
         $query->execute();
 
         $result = $query->fetchAll(PDO::FETCH_ASSOC);
@@ -196,6 +200,16 @@ class database
         }
     }
 
+    function approvestatusdata($data1){
+        $query = $this->db->prepare("SELECT issue.*, book.book_name, users.email 
+        FROM issue 
+        INNER JOIN book ON issue.book_id = book.id 
+        INNER JOIN users ON issue.users_id = users.id 
+        WHERE issue.status = :status");
+        $query->execute($data1);
+        return $query->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     function addissue(){
 
         $issue_book = $_POST['issue_book'];
@@ -203,7 +217,6 @@ class database
  
         $query = $this->db->prepare("INSERT INTO `issue`(`book_id`,`users_id`) VALUES (?,?)");
         $result = $query->execute([$issue_book,$user]);
-
 
         if ($result) {
             return true;
@@ -228,6 +241,15 @@ class database
         }
     }
 
+    function getApproval($data1)
+    {
+        $query = $this->db->prepare("update issue set status = :status where id =:id");
+        return $query->execute($data1);
+    }
 
+ 
+    
 }
 $database = new Database();
+
+

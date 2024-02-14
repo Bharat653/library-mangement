@@ -33,9 +33,6 @@ $getall = $database->issuebook();
                     <tr>
                         <th scope="col">Book Name</th>
                         <th scope="col">user email</th>
-                        <th scope="col">SBN Number</th>
-                        <th scope="col">Price</th>
-                        <th scope="col">Picture</th>
 
                     </tr>
                 </thead>
@@ -44,11 +41,8 @@ $getall = $database->issuebook();
                     foreach ($getall as $data) {
                         echo "<tr>";
                         echo "<td>" . $data['book_name']    ."</td>";
-                        echo "<td>" . $data['email'] ."</td>";
+                        echo "<td>" . $data['users_email'] ."</td>";
                 
-                        echo "<td>" . $data['sbn_number']    ."</td>";
-                        echo "<td>" . $data['price']    ."</td>";
-                        echo "<td><img src='./images/" . $data['picture'] . "' style='height:90px;'></td>";
 
                         echo "</tr>";
                     }
